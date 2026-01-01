@@ -84,7 +84,7 @@ function Hero() {
                                 <div className="relative aspect-[4/5] max-w-xs mx-auto lg:max-w-sm bg-warm-gray/50 rounded-2xl overflow-hidden border border-accent/30 shadow-lg">
                                     {/* Replace src with your image */}
                                     <img
-                                        src="/profile-pic-hero.png"
+                                        src="/projects/profile-pic-hero.png"
                                         alt="Profile"
                                         className="w-full h-full object-cover"
                                         onError={(e) => {
