@@ -93,8 +93,8 @@ function Hero() {
                                         }}
                                     />
                                     {/* Placeholder content when no image */}
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-warm-gray to-accent/30">
-                                        <div className="w-16 h-16 rounded-full bg-cream/80 flex items-center justify-center mb-4">
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-warm-gray to-accent/30 opacity-0">
+                                        <div className="w-16 h-16 rounded-full bg-cream/0 flex items-center justify-center mb-4">
                                             <svg className="w-8 h-8 text-stone" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                             </svg>
@@ -117,7 +117,7 @@ function Hero() {
 
             {/* Decorative Line */}
             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-stone/30 to-transparent" />
-        </section>
+        </section >
     )
 }
 
