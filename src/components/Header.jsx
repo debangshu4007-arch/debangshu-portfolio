@@ -6,7 +6,7 @@ function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
-    const isProjectPage = location.pathname.startsWith('/project/')
+    const isNotHomePage = location.pathname !== '/'
 
     useEffect(() => {
         const handleScroll = () => {
@@ -29,12 +29,19 @@ function Header() {
         }
     }, [location])
 
-    const handleNavClick = (e, href) => {
+    const handleNavClick = (e, link) => {
+        // If it's a page link (starts with / but no hash), use regular navigation
+        if (link.isPage) {
+            setIsMobileMenuOpen(false)
+            navigate(link.href)
+            return
+        }
+
+        // Handle hash navigation for sections on home page
         e.preventDefault()
-        const [path, hash] = href.split('#')
+        const [path, hash] = link.href.split('#')
 
         if (location.pathname !== '/' && path === '/') {
-            // If on a different page, navigate to home first, then scroll
             navigate('/')
             setTimeout(() => {
                 const element = document.getElementById(hash)
@@ -43,7 +50,6 @@ function Header() {
                 }
             }, 100)
         } else {
-            // If already on home page, just scroll
             const element = document.getElementById(hash)
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -53,14 +59,14 @@ function Header() {
     }
 
     const navLinks = [
-        { name: 'Works', href: '/#works' },
-        { name: 'About', href: '/#about' },
-        { name: 'Contact', href: '/#contact' },
+        { name: 'Works', href: '/#works', isPage: false },
+        { name: 'About', href: '/about', isPage: true },
+        { name: 'Contact', href: '/#contact', isPage: false },
     ]
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isProjectPage
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isNotHomePage
                     ? 'bg-cream/95 backdrop-blur-md shadow-sm'
                     : 'bg-transparent'
                 }`}
@@ -80,14 +86,24 @@ function Header() {
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center gap-12">
                         {navLinks.map((link) => (
-                            <a
-                                key={link.name}
-                                href={link.href}
-                                onClick={(e) => handleNavClick(e, link.href)}
-                                className="link-underline font-body text-sm uppercase tracking-wider text-charcoal hover:text-stone transition-colors cursor-pointer"
-                            >
-                                {link.name}
-                            </a>
+                            link.isPage ? (
+                                <Link
+                                    key={link.name}
+                                    to={link.href}
+                                    className="link-underline font-body text-sm uppercase tracking-wider text-charcoal hover:text-stone transition-colors cursor-pointer"
+                                >
+                                    {link.name}
+                                </Link>
+                            ) : (
+                                <a
+                                    key={link.name}
+                                    href={link.href}
+                                    onClick={(e) => handleNavClick(e, link)}
+                                    className="link-underline font-body text-sm uppercase tracking-wider text-charcoal hover:text-stone transition-colors cursor-pointer"
+                                >
+                                    {link.name}
+                                </a>
+                            )
                         ))}
                     </nav>
 
@@ -122,14 +138,25 @@ function Header() {
             >
                 <nav className="section-padding py-8 flex flex-col gap-6">
                     {navLinks.map((link) => (
-                        <a
-                            key={link.name}
-                            href={link.href}
-                            onClick={(e) => handleNavClick(e, link.href)}
-                            className="font-display font-semibold text-2xl text-charcoal hover:text-stone transition-colors cursor-pointer"
-                        >
-                            {link.name}
-                        </a>
+                        link.isPage ? (
+                            <Link
+                                key={link.name}
+                                to={link.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="font-display font-semibold text-2xl text-charcoal hover:text-stone transition-colors cursor-pointer"
+                            >
+                                {link.name}
+                            </Link>
+                        ) : (
+                            <a
+                                key={link.name}
+                                href={link.href}
+                                onClick={(e) => handleNavClick(e, link)}
+                                className="font-display font-semibold text-2xl text-charcoal hover:text-stone transition-colors cursor-pointer"
+                            >
+                                {link.name}
+                            </a>
+                        )
                     ))}
                 </nav>
             </div>
