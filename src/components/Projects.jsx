@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { projects } from '../data/projects'
+import { projects, getPreviewMedia } from '../data/projects'
 import { BlurFadeIn } from './BlurFadeIn'
+import MediaRenderer from './MediaRenderer'
 
 // Individual project card with asymmetric sizing
 function ProjectCard({ project, index, isLarge }) {
@@ -12,6 +13,9 @@ function ProjectCard({ project, index, isLarge }) {
         once: true,
         margin: '-80px 0px -80px 0px'
     })
+
+    // Get preview media for the card
+    const previewMedia = getPreviewMedia(project)
 
     return (
         <motion.article
@@ -39,9 +43,19 @@ function ProjectCard({ project, index, isLarge }) {
             style={{ willChange: 'transform, opacity, filter' }}
         >
             <Link to={`/project/${project.slug}`} className="block">
-                {/* Project Image */}
+                {/* Project Image/Video */}
                 <div className={`relative overflow-hidden rounded-lg ${isLarge ? 'aspect-[4/3]' : 'aspect-[3/4]'}`}>
+                    {/* Gradient background (fallback) */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
+
+                    {/* Media content (image or video) */}
+                    {previewMedia && (
+                        <MediaRenderer
+                            media={previewMedia}
+                            className="absolute inset-0 w-full h-full"
+                            showPlaceholder={false}
+                        />
+                    )}
 
                     {/* Project Number Overlay */}
                     <div className="absolute top-6 left-6">

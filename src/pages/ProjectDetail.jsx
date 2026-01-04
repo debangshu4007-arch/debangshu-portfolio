@@ -3,11 +3,17 @@ import { useParams, Link } from 'react-router-dom'
 import { projects } from '../data/projects'
 import useLenis from '../hooks/useLenis'
 import useGsapAnimations from '../hooks/useGsapAnimations'
+import MediaRenderer from '../components/MediaRenderer'
 
 // Project detail page with animations and curtain footer
 function ProjectDetail() {
     const { slug } = useParams()
     const containerRef = useRef(null)
+
+    // Scroll to top on route change (fixes mid-page loading issue)
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [slug])
 
     // Initialize Lenis smooth scroll
     useLenis()
@@ -41,14 +47,23 @@ function ProjectDetail() {
         <>
             {/* Main Content Wrapper - scrolls over curtain footer */}
             <div ref={containerRef} className="content-wrapper">
-                {/* Hero Image - Full Bleed */}
+                {/* Hero Media - Full Bleed (supports image or video) */}
                 <section className="pt-20">
                     <div className="case-image aspect-[16/9] md:aspect-[21/9] w-full">
-                        <div
-                            className={`parallax-inner w-full h-full bg-gradient-to-br ${project.gradient} flex items-center justify-center`}
-                        >
-                            <span className="font-body text-sm text-charcoal/40">Hero Image</span>
-                        </div>
+                        {project.heroMedia ? (
+                            <MediaRenderer
+                                media={project.heroMedia}
+                                className="parallax-inner w-full h-full"
+                                fallbackGradient={project.gradient}
+                                placeholderText="Hero Media"
+                            />
+                        ) : (
+                            <div
+                                className={`parallax-inner w-full h-full bg-gradient-to-br ${project.gradient} flex items-center justify-center`}
+                            >
+                                <span className="font-body text-sm text-charcoal/40">Hero Image</span>
+                            </div>
+                        )}
                     </div>
                 </section>
 
@@ -178,21 +193,38 @@ function ProjectDetail() {
                     </div>
                 </section>
 
-                {/* Image Gallery */}
+                {/* Media Gallery */}
                 <section className="py-16 md:py-24">
                     <div className="section-padding">
                         <div className="container-wide">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-on-scroll stagger-children">
-                                <div className="case-image aspect-[4/3]">
-                                    <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-80 flex items-center justify-center`}>
-                                        <span className="font-body text-sm text-charcoal/40">Project Image 1</span>
-                                    </div>
-                                </div>
-                                <div className="case-image aspect-[4/3]">
-                                    <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-60 flex items-center justify-center`}>
-                                        <span className="font-body text-sm text-charcoal/40">Project Image 2</span>
-                                    </div>
-                                </div>
+                                {project.media && project.media.length >= 2 ? (
+                                    // Render first two media items from project data
+                                    project.media.slice(0, 2).map((mediaItem, idx) => (
+                                        <div key={idx} className="case-image aspect-[4/3]">
+                                            <MediaRenderer
+                                                media={mediaItem}
+                                                className="parallax-inner w-full h-full"
+                                                fallbackGradient={project.gradient}
+                                                placeholderText={`Project Media ${idx + 1}`}
+                                            />
+                                        </div>
+                                    ))
+                                ) : (
+                                    // Fallback placeholders
+                                    <>
+                                        <div className="case-image aspect-[4/3]">
+                                            <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-80 flex items-center justify-center`}>
+                                                <span className="font-body text-sm text-charcoal/40">Project Image 1</span>
+                                            </div>
+                                        </div>
+                                        <div className="case-image aspect-[4/3]">
+                                            <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-60 flex items-center justify-center`}>
+                                                <span className="font-body text-sm text-charcoal/40">Project Image 2</span>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -219,14 +251,23 @@ function ProjectDetail() {
                     </div>
                 </section>
 
-                {/* Full Width Image */}
+                {/* Full Width Media */}
                 <section className="py-8">
                     <div className="section-padding">
                         <div className="container-wide">
                             <div className="case-image aspect-[16/9] reveal-on-scroll">
-                                <div className={`parallax-inner bg-gradient-to-br ${project.gradient} flex items-center justify-center`}>
-                                    <span className="font-body text-sm text-charcoal/40">Full Width Image</span>
-                                </div>
+                                {project.media && project.media.length >= 3 ? (
+                                    <MediaRenderer
+                                        media={project.media[2]}
+                                        className="parallax-inner w-full h-full"
+                                        fallbackGradient={project.gradient}
+                                        placeholderText="Full Width Media"
+                                    />
+                                ) : (
+                                    <div className={`parallax-inner bg-gradient-to-br ${project.gradient} flex items-center justify-center`}>
+                                        <span className="font-body text-sm text-charcoal/40">Full Width Image</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
