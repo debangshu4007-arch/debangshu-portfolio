@@ -8,12 +8,6 @@ function Footer() {
             { name: 'About', href: '#about' },
             { name: 'Contact', href: '#contact' },
         ],
-        services: [
-            { name: 'Branding', href: '#' },
-            { name: 'Web Design', href: '#' },
-            { name: 'Development', href: '#' },
-            { name: 'Strategy', href: '#' },
-        ],
     }
 
     return (
@@ -21,9 +15,9 @@ function Footer() {
             {/* Main Footer */}
             <div className="section-padding py-16 md:py-24">
                 <div className="container-wide">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+                    <div className="flex flex-col md:flex-row justify-between gap-12 lg:gap-8">
                         {/* Brand Column */}
-                        <div className="lg:col-span-2">
+                        <div className="max-w-md">
                             <a href="#" className="inline-flex items-center gap-2 mb-6">
                                 <span className="font-display font-black text-2xl tracking-tight text-cream">
                                     [D]
@@ -38,15 +32,15 @@ function Footer() {
                                 working with clients worldwide.
                             </p>
                             <a
-                                href="mailto:hello@debangshu.works"
+                                href="mailto:debangshu4007@gmail.com"
                                 className="font-body text-body-lg text-cream link-underline"
                             >
-                                hello@debangshu.works
+                                debangshu4007@gmail.com
                             </a>
                         </div>
 
-                        {/* Navigation */}
-                        <div>
+                        {/* Navigation - Pushed to right */}
+                        <div className="md:text-right">
                             <h4 className="font-display font-semibold text-caption uppercase tracking-widest text-stone mb-6">
                                 Navigation
                             </h4>
@@ -64,24 +58,7 @@ function Footer() {
                             </ul>
                         </div>
 
-                        {/* Services */}
-                        <div>
-                            <h4 className="font-display font-semibold text-caption uppercase tracking-widest text-stone mb-6">
-                                Services
-                            </h4>
-                            <ul className="space-y-4">
-                                {footerLinks.services.map((link) => (
-                                    <li key={link.name}>
-                                        <a
-                                            href={link.href}
-                                            className="font-body text-body text-cream/80 hover:text-cream transition-colors"
-                                        >
-                                            {link.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
             </div>

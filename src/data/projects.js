@@ -40,7 +40,7 @@ export const projects = [
         category: 'Advert',
         year: '2025',
         gradient: 'from-warm-gray to-accent',
-        client: 'WINXIX',
+        client: 'WINIX',
         duration: '2 months',
         description: 'Led the creative direction for a multi-platform campaign that unified the brand\'s visual presence across all touchpoints.',
         challenge: 'The brand had inconsistent visual presentation across different channels, leading to a fragmented brand perception in the market.',

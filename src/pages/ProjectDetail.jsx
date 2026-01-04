@@ -1,11 +1,26 @@
+import { useRef, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { projects } from '../data/projects'
+import useLenis from '../hooks/useLenis'
+import useGsapAnimations from '../hooks/useGsapAnimations'
 
+// Project detail page with animations and curtain footer
 function ProjectDetail() {
     const { slug } = useParams()
-    const project = projects.find(p => p.slug === slug)
+    const containerRef = useRef(null)
 
-    if (!project) {
+    // Initialize Lenis smooth scroll
+    useLenis()
+
+    // Initialize GSAP animations after render
+    useGsapAnimations(containerRef)
+
+    // Find the project
+    const project = projects.find(p => p.slug === slug)
+    const currentIndex = projects.findIndex(p => p.slug === slug)
+
+    // Handle project not found
+    if (!project || currentIndex === -1) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-cream">
                 <div className="text-center">
@@ -18,119 +33,116 @@ function ProjectDetail() {
         )
     }
 
+    // Get prev/next projects (only after we confirm project exists)
+    const prevProject = projects[(currentIndex - 1 + projects.length) % projects.length]
+    const nextProject = projects[(currentIndex + 1) % projects.length]
+
     return (
-        <div className="min-h-screen bg-cream">
-            {/* Hero Section */}
-            <section className="pt-32 pb-16 md:pb-24">
-                <div className="section-padding">
-                    <div className="container-wide">
-                        {/* Back Link */}
-                        <Link
-                            to="/#works"
-                            className="inline-flex items-center gap-2 text-stone hover:text-charcoal transition-colors mb-12 group"
+        <>
+            {/* Main Content Wrapper - scrolls over curtain footer */}
+            <div ref={containerRef} className="content-wrapper">
+                {/* Hero Image - Full Bleed */}
+                <section className="pt-20">
+                    <div className="case-image aspect-[16/9] md:aspect-[21/9] w-full">
+                        <div
+                            className={`parallax-inner w-full h-full bg-gradient-to-br ${project.gradient} flex items-center justify-center`}
                         >
-                            <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-                            </svg>
-                            <span className="font-body text-caption uppercase tracking-wider">Back to Projects</span>
-                        </Link>
+                            <span className="font-body text-sm text-charcoal/40">Hero Image</span>
+                        </div>
+                    </div>
+                </section>
 
-                        {/* Project Header */}
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
-                            <div className="lg:col-span-8">
-                                <span className="inline-block px-4 py-2 bg-accent rounded-full font-body text-caption uppercase tracking-wider text-charcoal mb-6">
-                                    {project.category}
-                                </span>
-                                <h1 className="text-display-lg text-editorial text-charcoal mb-6">
-                                    {project.title}
-                                </h1>
-                                <p className="font-body text-body-lg text-stone max-w-2xl">
-                                    {project.subtitle}
-                                </p>
-                            </div>
+                {/* Project Header with Sticky Sidebar */}
+                <section className="py-16 md:py-24">
+                    <div className="section-padding">
+                        <div className="container-wide">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                                {/* Title Column */}
+                                <div className="lg:col-span-7 reveal-on-scroll">
+                                    <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-charcoal mb-4">
+                                        {project.title}
+                                    </h1>
+                                    <p className="font-display text-2xl md:text-3xl lg:text-4xl text-stone italic">
+                                        {project.subtitle}
+                                    </p>
+                                </div>
 
-                            <div className="lg:col-span-4">
-                                <div className="space-y-6">
-                                    <div>
-                                        <span className="font-body text-caption uppercase tracking-wider text-stone block mb-2">Client</span>
-                                        <span className="font-display font-semibold text-heading-md text-charcoal">{project.client}</span>
-                                    </div>
-                                    <div>
-                                        <span className="font-body text-caption uppercase tracking-wider text-stone block mb-2">Duration</span>
-                                        <span className="font-display font-semibold text-heading-md text-charcoal">{project.duration}</span>
-                                    </div>
-                                    <div>
-                                        <span className="font-body text-caption uppercase tracking-wider text-stone block mb-2">Year</span>
-                                        <span className="font-display font-semibold text-heading-md text-charcoal">{project.year}</span>
+                                {/* Sticky Metadata Sidebar */}
+                                <div className="lg:col-span-5">
+                                    <div className="lg:sticky lg:top-8">
+                                        <div className="flex flex-col md:flex-row lg:flex-col gap-8 md:gap-16 lg:gap-6">
+                                            {/* Date */}
+                                            <div className="reveal-on-scroll">
+                                                <span className="font-body text-sm text-stone block mb-1">Date</span>
+                                                <span className="font-body text-base text-charcoal">{project.duration} • {project.year}</span>
+                                            </div>
+
+                                            {/* Client */}
+                                            <div className="reveal-on-scroll">
+                                                <span className="font-body text-sm text-stone block mb-1">Client</span>
+                                                <span className="font-body text-base text-charcoal">{project.client}</span>
+                                            </div>
+
+                                            {/* Services */}
+                                            <div className="reveal-on-scroll">
+                                                <span className="font-body text-sm text-stone block mb-1">Services</span>
+                                                <div className="space-y-1">
+                                                    {project.services.map((service) => (
+                                                        <span key={service} className="font-body text-base text-charcoal block">
+                                                            {service}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* Project Image Hero */}
-            <section className="pb-16 md:pb-24">
+                {/* Divider */}
                 <div className="section-padding">
                     <div className="container-wide">
-                        <div className={`aspect-[16/9] rounded-2xl bg-gradient-to-br ${project.gradient} overflow-hidden relative`}>
-                            {/* Placeholder for main project image */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="text-center">
-                                    <div className="w-24 h-24 mx-auto rounded-full bg-cream/30 flex items-center justify-center mb-4">
-                                        <svg className="w-12 h-12 text-charcoal/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                    <span className="font-body text-sm text-charcoal/50">Project Image Placeholder</span>
-                                </div>
-                            </div>
-                        </div>
+                        <hr className="border-stone/20" />
                     </div>
                 </div>
-            </section>
 
-            {/* Project Details */}
-            <section className="pb-16 md:pb-24">
-                <div className="section-padding">
-                    <div className="container-wide">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-                            {/* Services */}
-                            <div className="lg:col-span-4">
-                                <h3 className="font-display font-semibold text-heading-md text-charcoal mb-6">Services</h3>
-                                <div className="flex flex-wrap gap-3">
-                                    {project.services.map((service) => (
-                                        <span
-                                            key={service}
-                                            className="px-4 py-2 bg-off-white border border-accent/50 rounded-full font-body text-caption text-charcoal"
-                                        >
-                                            {service}
-                                        </span>
-                                    ))}
+                {/* The Brief Section */}
+                <section className="py-16 md:py-24">
+                    <div className="section-padding">
+                        <div className="container-wide">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                                {/* Section Title */}
+                                <div className="lg:col-span-4">
+                                    <h2 className="font-display text-xl md:text-2xl italic text-charcoal reveal-on-scroll">
+                                        The Brief
+                                    </h2>
                                 </div>
-                            </div>
 
-                            {/* Description */}
-                            <div className="lg:col-span-8">
-                                <div className="space-y-12">
-                                    <div>
-                                        <h3 className="font-display font-semibold text-heading-md text-charcoal mb-4">Overview</h3>
-                                        <p className="font-body text-body-lg text-stone leading-relaxed">
+                                {/* Content */}
+                                <div className="lg:col-span-8 space-y-12">
+                                    {/* Overview */}
+                                    <div className="reveal-on-scroll">
+                                        <h3 className="font-display font-semibold text-lg text-charcoal mb-4">Overview</h3>
+                                        <p className="font-body text-lg text-stone leading-relaxed">
                                             {project.description}
                                         </p>
                                     </div>
 
-                                    <div>
-                                        <h3 className="font-display font-semibold text-heading-md text-charcoal mb-4">The Challenge</h3>
-                                        <p className="font-body text-body text-stone leading-relaxed">
+                                    {/* Challenge */}
+                                    <div className="reveal-on-scroll">
+                                        <h3 className="font-display font-semibold text-lg text-charcoal mb-4">Challenge</h3>
+                                        <p className="font-body text-base text-stone leading-relaxed">
                                             {project.challenge}
                                         </p>
                                     </div>
 
-                                    <div>
-                                        <h3 className="font-display font-semibold text-heading-md text-charcoal mb-4">The Solution</h3>
-                                        <p className="font-body text-body text-stone leading-relaxed">
+                                    {/* Solution */}
+                                    <div className="reveal-on-scroll">
+                                        <h3 className="font-display font-semibold text-lg text-charcoal mb-4">Solution</h3>
+                                        <p className="font-body text-base text-stone leading-relaxed">
                                             {project.solution}
                                         </p>
                                     </div>
@@ -138,58 +150,135 @@ function ProjectDetail() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* Additional Images Grid */}
-            <section className="pb-16 md:pb-24">
-                <div className="section-padding">
-                    <div className="container-wide">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {[1, 2].map((i) => (
-                                <div
-                                    key={i}
-                                    className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${project.gradient} opacity-70 overflow-hidden relative`}
-                                >
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="font-body text-sm text-charcoal/40">Image {i + 1}</span>
+                {/* Narrative Section */}
+                <section className="py-16 md:py-24">
+                    <div className="section-padding">
+                        <div className="container-wide">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                                <div className="lg:col-span-4">
+                                    <h2 className="font-display text-xl md:text-2xl italic text-charcoal reveal-on-scroll">
+                                        Inspired by the Essence
+                                    </h2>
+                                </div>
+
+                                <div className="lg:col-span-8 reveal-on-scroll">
+                                    <p className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal leading-snug">
+                                        Before we began designing, we set out to understand what makes {project.client} distinctive.
+                                        Our team immersed in the project, studying the context, and uncovering the story that needed to be told.
+                                    </p>
+                                    <p className="font-body text-lg text-stone leading-relaxed mt-8">
+                                        By understanding the core values and vision, we were able to translate that essence
+                                        into a digital expression that feels authentic and purposeful.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Image Gallery */}
+                <section className="py-16 md:py-24">
+                    <div className="section-padding">
+                        <div className="container-wide">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-on-scroll stagger-children">
+                                <div className="case-image aspect-[4/3]">
+                                    <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-80 flex items-center justify-center`}>
+                                        <span className="font-body text-sm text-charcoal/40">Project Image 1</span>
                                     </div>
                                 </div>
-                            ))}
+                                <div className="case-image aspect-[4/3]">
+                                    <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-60 flex items-center justify-center`}>
+                                        <span className="font-body text-sm text-charcoal/40">Project Image 2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Detail Section */}
+                <section className="py-16 md:py-24">
+                    <div className="section-padding">
+                        <div className="container-wide">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                                <div className="lg:col-span-4">
+                                    <h2 className="font-display text-xl md:text-2xl italic text-charcoal reveal-on-scroll">
+                                        The Devil's in the Detail
+                                    </h2>
+                                </div>
+                                <div className="lg:col-span-8 reveal-on-scroll">
+                                    <p className="font-display text-2xl md:text-3xl lg:text-4xl text-charcoal leading-snug">
+                                        To capture the authenticity of {project.client}, we rooted the visual design
+                                        in the project's core identity. Every element was crafted with intention.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Full Width Image */}
+                <section className="py-8">
+                    <div className="section-padding">
+                        <div className="container-wide">
+                            <div className="case-image aspect-[16/9] reveal-on-scroll">
+                                <div className={`parallax-inner bg-gradient-to-br ${project.gradient} flex items-center justify-center`}>
+                                    <span className="font-body text-sm text-charcoal/40">Full Width Image</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Spacer for curtain footer */}
+                <div className="h-[60vh] md:h-[80vh]"></div>
+            </div>
+
+            {/* Curtain Footer */}
+            <div className="curtain-footer h-[60vh] md:h-[80vh] bg-charcoal">
+                <div className="h-full flex flex-col items-center justify-center section-padding">
+                    <div className="container-wide w-full">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
+                            <Link
+                                to={`/project/${prevProject.slug}`}
+                                className="group flex-1 text-left"
+                            >
+                                <span className="font-body text-xs uppercase tracking-widest text-stone/60 block mb-2">Previous</span>
+                                <h3 className="font-display text-xl md:text-2xl lg:text-3xl text-cream/70 group-hover:text-cream transition-colors">
+                                    {prevProject.title}
+                                </h3>
+                            </Link>
+
+                            <div className="w-px h-16 bg-stone/20 hidden md:block"></div>
+
+                            <Link
+                                to={`/project/${nextProject.slug}`}
+                                className="group flex-1 text-right"
+                            >
+                                <span className="font-body text-xs uppercase tracking-widest text-stone/60 block mb-2">Next</span>
+                                <h3 className="font-display text-xl md:text-2xl lg:text-3xl text-cream/70 group-hover:text-cream transition-colors">
+                                    {nextProject.title}
+                                </h3>
+                            </Link>
+                        </div>
+
+                        <div className="text-center mt-16">
+                            <Link
+                                to="/#works"
+                                className="inline-flex items-center gap-2 font-body text-sm uppercase tracking-wider text-stone hover:text-cream transition-colors"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                                </svg>
+                                All Work
+                            </Link>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            {/* Next Project */}
-            <section className="py-16 md:py-24 bg-charcoal">
-                <div className="section-padding">
-                    <div className="container-wide text-center">
-                        <span className="font-body text-caption uppercase tracking-widest text-stone block mb-4">Next Project</span>
-                        {(() => {
-                            const currentIndex = projects.findIndex(p => p.slug === slug)
-                            const nextProject = projects[(currentIndex + 1) % projects.length]
-                            return (
-                                <Link
-                                    to={`/project/${nextProject.slug}`}
-                                    className="group inline-block"
-                                >
-                                    <h2 className="text-display-md text-editorial text-cream group-hover:text-highlight transition-colors">
-                                        {nextProject.title}
-                                    </h2>
-                                    <span className="inline-flex items-center gap-2 mt-4 font-body text-body text-stone group-hover:text-cream transition-colors">
-                                        View Project
-                                        <svg className="w-5 h-5 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </span>
-                                </Link>
-                            )
-                        })()}
-                    </div>
-                </div>
-            </section>
-        </div>
+            </div>
+        </>
     )
 }
 
