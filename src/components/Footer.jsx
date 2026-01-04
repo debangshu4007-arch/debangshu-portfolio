@@ -97,28 +97,27 @@ function Footer() {
                         {/* Social Links */}
                         <div className="flex items-center gap-6">
                             <a
-                                href="#"
+                                href="https://x.com/DebangshuSingh"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="font-body text-caption text-stone hover:text-cream transition-colors uppercase tracking-wider"
-                                aria-label="Twitter"
+                                aria-label="X (Twitter)"
                             >
                                 Twitter
                             </a>
                             <a
-                                href="#"
+                                href="https://www.linkedin.com/in/debangshu-singh-464500212/"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="font-body text-caption text-stone hover:text-cream transition-colors uppercase tracking-wider"
                                 aria-label="LinkedIn"
                             >
                                 LinkedIn
                             </a>
                             <a
-                                href="#"
-                                className="font-body text-caption text-stone hover:text-cream transition-colors uppercase tracking-wider"
-                                aria-label="Dribbble"
-                            >
-                                Dribbble
-                            </a>
-                            <a
-                                href="#"
+                                href="https://www.instagram.com/faltugrafer/"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="font-body text-caption text-stone hover:text-cream transition-colors uppercase tracking-wider"
                                 aria-label="Instagram"
                             >

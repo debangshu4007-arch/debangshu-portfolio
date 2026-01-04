@@ -5,8 +5,8 @@ import { useRef } from 'react'
 import { projects } from '../data/projects'
 import { BlurFadeIn } from './BlurFadeIn'
 
-// Individual project card with blur-fade animation
-function ProjectCard({ project, index, hoveredProject, setHoveredProject }) {
+// Individual project card with asymmetric sizing
+function ProjectCard({ project, index, isLarge }) {
     const ref = useRef(null)
     const isInView = useInView(ref, {
         once: true,
@@ -16,9 +16,7 @@ function ProjectCard({ project, index, hoveredProject, setHoveredProject }) {
     return (
         <motion.article
             ref={ref}
-            className="group relative"
-            onMouseEnter={() => setHoveredProject(project.id)}
-            onMouseLeave={() => setHoveredProject(null)}
+            className={`group relative ${isLarge ? 'md:col-span-7' : 'md:col-span-5'}`}
             initial={{
                 opacity: 0,
                 y: 25,
@@ -35,59 +33,52 @@ function ProjectCard({ project, index, hoveredProject, setHoveredProject }) {
             }}
             transition={{
                 duration: 0.7,
-                delay: index * 0.1, // Stagger based on index
+                delay: index * 0.15,
                 ease: [0.25, 0.1, 0.25, 1],
             }}
             style={{ willChange: 'transform, opacity, filter' }}
         >
             <Link to={`/project/${project.slug}`} className="block">
-                <div className="card-base hover-lift rounded-lg overflow-hidden">
-                    {/* Project Image/Gradient */}
-                    <div className={`aspect-[4/5] bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/10 transition-colors duration-500" />
+                {/* Project Image */}
+                <div className={`relative overflow-hidden rounded-lg ${isLarge ? 'aspect-[4/3]' : 'aspect-[3/4]'}`}>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
 
-                        {/* Project Number */}
-                        <div className="absolute top-6 left-6">
-                            <span className="font-display font-black text-6xl md:text-7xl text-white/20 group-hover:text-white/40 transition-colors duration-500">
-                                {String(project.id).padStart(2, '0')}
-                            </span>
-                        </div>
+                    {/* Project Number Overlay */}
+                    <div className="absolute top-6 left-6">
+                        <span className="font-display font-black text-5xl md:text-6xl text-white/15 group-hover:text-white/30 transition-colors duration-500">
+                            {String(project.id).padStart(2, '0')}
+                        </span>
+                    </div>
 
-                        {/* View Project Button */}
-                        <div className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${hoveredProject === project.id ? 'opacity-100' : 'opacity-0'
-                            }`}>
-                            <div className="w-24 h-24 rounded-full bg-cream flex items-center justify-center shadow-xl transform group-hover:scale-100 scale-75 transition-transform duration-500">
-                                <span className="font-display font-semibold text-xs uppercase tracking-wider text-charcoal">
-                                    View
-                                </span>
-                            </div>
-                        </div>
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500" />
 
-                        {/* Category Tag */}
-                        <div className="absolute bottom-6 left-6">
-                            <span className="inline-block px-4 py-2 bg-cream/90 backdrop-blur-sm rounded-full font-body text-caption uppercase tracking-wider text-charcoal">
-                                {project.category}
+                    {/* View Button */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="w-20 h-20 rounded-full bg-cream flex items-center justify-center shadow-xl transform scale-75 group-hover:scale-100 transition-transform duration-500">
+                            <span className="font-display font-semibold text-xs uppercase tracking-wider text-charcoal">
+                                View
                             </span>
                         </div>
                     </div>
+                </div>
 
-                    {/* Project Info */}
-                    <div className="p-6">
-                        <div className="flex items-start justify-between gap-4">
-                            <div>
-                                <h3 className="font-display font-bold text-heading-md text-charcoal mb-2 group-hover:text-stone transition-colors">
-                                    {project.title}
-                                </h3>
-                                <p className="font-body text-caption text-stone">
-                                    {project.subtitle}
-                                </p>
-                            </div>
-                            <span className="font-body text-caption text-stone shrink-0">
-                                {project.year}
-                            </span>
-                        </div>
+                {/* Caption Below Image */}
+                <div className="mt-5 space-y-1">
+                    <div className="flex items-baseline gap-3 flex-wrap">
+                        <h3 className="font-display font-semibold text-heading-sm text-charcoal underline underline-offset-4 decoration-1 group-hover:decoration-stone transition-colors">
+                            {project.title}
+                        </h3>
+                        <span className="font-body text-caption text-stone">
+                            with {project.client}.
+                        </span>
+                        <span className="font-body text-caption text-stone/70">
+                            {project.services.slice(0, 2).join(', ')}.
+                        </span>
                     </div>
+                    <p className="font-body text-small text-stone/80 max-w-md">
+                        {project.subtitle}
+                    </p>
                 </div>
             </Link>
         </motion.article>
@@ -95,7 +86,15 @@ function ProjectCard({ project, index, hoveredProject, setHoveredProject }) {
 }
 
 function Projects() {
-    const [hoveredProject, setHoveredProject] = useState(null)
+    // Define layout pattern: alternating large/small positions
+    // Pattern: [large, small], [small, large], repeat
+    const getIsLarge = (index) => {
+        const row = Math.floor(index / 2)
+        const posInRow = index % 2
+        // Even rows: first is large, second is small
+        // Odd rows: first is small, second is large
+        return row % 2 === 0 ? posInRow === 0 : posInRow === 1
+    }
 
     return (
         <section id="works" className="py-24 md:py-32 lg:py-40">
@@ -119,21 +118,20 @@ function Projects() {
                         </div>
                         <BlurFadeIn delay={0.2} blur={10} yOffset={15}>
                             <p className="font-body text-body text-stone max-w-sm">
-                                A curated selection of work spanning branding, digital design,
-                                and strategic development.
+                                A curated selection of work spanning video,
+                                creative direction, and digital design.
                             </p>
                         </BlurFadeIn>
                     </div>
 
-                    {/* Projects Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    {/* Asymmetric Projects Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
                         {projects.map((project, index) => (
                             <ProjectCard
                                 key={project.id}
                                 project={project}
                                 index={index}
-                                hoveredProject={hoveredProject}
-                                setHoveredProject={setHoveredProject}
+                                isLarge={getIsLarge(index)}
                             />
                         ))}
                     </div>

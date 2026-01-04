@@ -42,9 +42,8 @@ function Hero() {
                             {/* Subtext */}
                             <BlurFadeIn delay={0.2} blur={10} yOffset={20}>
                                 <p className="mt-8 font-body text-body-lg text-stone max-w-md">
-                                    I work with brands that want to stand out.
-                                    Through design, development, and strategic thinking —
-                                    creating work that connects and inspires.
+                                    I work with people who want it all.
+                                    Their vision served to the world—video first.
                                 </p>
                             </BlurFadeIn>
 
