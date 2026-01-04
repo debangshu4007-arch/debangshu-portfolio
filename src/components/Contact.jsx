@@ -28,13 +28,12 @@ function Contact() {
                         </p>
 
                         <a
-                            href="mailto:hello@debangshu.works"
+                            href="https://cal.com/debangshu-singh-sklsrd/30min"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="btn-primary text-lg"
                         >
-                            Start a conversation
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
+                            Book a call →
                         </a>
                     </div>
 
@@ -54,10 +53,10 @@ function Contact() {
                                 For project inquiries
                             </p>
                             <a
-                                href="mailto:hello@debangshu.works"
+                                href="mailto:debangshu4007@gmail.com"
                                 className="font-body text-body text-charcoal link-underline"
                             >
-                                hello@debangshu.works
+                                debangshu4007@gmail.com
                             </a>
                         </div>
 
