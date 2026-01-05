@@ -17,14 +17,9 @@ export const projects = [
         challenge: 'The client needed to establish a strong visual identity that would resonate with their target audience of young professionals while maintaining a sense of sophistication and trustworthiness.',
         solution: 'We developed a minimal yet impactful visual language using geometric forms and a refined color palette. The brand system was designed to be flexible across digital and print applications.',
         services: ['Video Production', 'Brand Strategy', 'Social Content'],
-        // New media array - supports both images and videos
-        media: [
-            { type: 'image', src: '/placeholder-1.jpg', alt: 'Project hero image' },
-            { type: 'image', src: '/placeholder-2.jpg', alt: 'Project detail' },
-            { type: 'image', src: '/placeholder-3.jpg', alt: 'Final result' },
-        ],
-        // Hero media for the detail page (can be image or video)
-        heroMedia: { type: 'image', src: '/placeholder-hero.jpg', alt: 'Hero banner' },
+        // Media will use gradient fallback when null/undefined
+        media: null,
+        heroMedia: null,
     },
     {
         id: 2,
@@ -40,16 +35,12 @@ export const projects = [
         challenge: 'Creating a website that could effectively communicate complex technical products to a non-technical audience while maintaining engagement and reducing bounce rates.',
         solution: 'We implemented scroll-driven animations, interactive product demonstrations, and a carefully crafted information architecture that guides users through the content naturally.',
         services: ['Film Production', 'Storytelling', 'Direction'],
-        media: [
-            { type: 'image', src: '/placeholder-1.jpg', alt: 'Film still 1' },
-            { type: 'image', src: '/placeholder-2.jpg', alt: 'Film still 2' },
-            { type: 'image', src: '/placeholder-3.jpg', alt: 'Behind the scenes' },
-        ],
-        heroMedia: { type: 'image', src: '/placeholder-hero.jpg', alt: 'Hero banner' },
+        media: null,
+        heroMedia: null,
     },
     {
         id: 3,
-        slug: 'Winix Air purifiers',
+        slug: 'winix-air-purifiers',
         title: 'Winix micro ads',
         subtitle: 'Made consumer focused micro ads',
         category: 'Advert',
@@ -61,12 +52,8 @@ export const projects = [
         challenge: 'The brand had inconsistent visual presentation across different channels, leading to a fragmented brand perception in the market.',
         solution: 'Developed a cohesive creative framework and art direction guidelines that ensured consistency while allowing flexibility for different contexts and platforms.',
         services: ['Creative Direction', 'Art Direction', 'Campaign Design'],
-        media: [
-            { type: 'image', src: '/placeholder-1.jpg', alt: 'Campaign visual 1' },
-            { type: 'image', src: '/placeholder-2.jpg', alt: 'Campaign visual 2' },
-            { type: 'image', src: '/placeholder-3.jpg', alt: 'Campaign visual 3' },
-        ],
-        heroMedia: { type: 'image', src: '/placeholder-hero.jpg', alt: 'Hero banner' },
+        media: null,
+        heroMedia: null,
     },
     {
         id: 4,
@@ -82,19 +69,15 @@ export const projects = [
         challenge: 'To create a cohesive story with a duration of 10 minutes that properly showed the theme "The Secret Life Of", requiring consistent character retention and narrative flow using AI tools.',
         solution: 'We crafted a multi-layered narrative that explored the hidden digital consciousness. By combining precise prompt engineering with traditional editing techniques, we delivered a 10-minute film that met the strict thematic requirements while telling a deeply human story.',
         services: ['AI Video', 'Narrative Design', 'Scriptwriting', 'Sound Design'],
-        media: [
-            { type: 'image', src: '/placeholder-1.jpg', alt: 'AI generated scene 1' },
-            { type: 'image', src: '/placeholder-2.jpg', alt: 'AI generated scene 2' },
-            { type: 'image', src: '/placeholder-3.jpg', alt: 'AI generated scene 3' },
-        ],
-        heroMedia: { type: 'image', src: '/placeholder-hero.jpg', alt: 'Hero banner' },
+        media: null,
+        heroMedia: null,
     },
 ]
 
 /**
  * Helper function to get the preview media (first item or heroMedia) for a project card
  * @param {Object} project - The project object
- * @returns {Object} - The media object { type, src, alt? }
+ * @returns {Object|null} - The media object { type, src, alt? } or null for gradient fallback
  */
 export function getPreviewMedia(project) {
     // Prefer heroMedia if available, otherwise use first media item
@@ -104,9 +87,6 @@ export function getPreviewMedia(project) {
     if (project.media && project.media.length > 0) {
         return project.media[0]
     }
-    // Fallback for backward compatibility with old 'images' array
-    if (project.images && project.images.length > 0) {
-        return { type: 'image', src: project.images[0], alt: project.title }
-    }
+    // Return null to trigger gradient fallback
     return null
 }

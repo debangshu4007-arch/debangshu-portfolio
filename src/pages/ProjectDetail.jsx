@@ -50,20 +50,12 @@ function ProjectDetail() {
                 {/* Hero Media - Full Bleed (supports image or video) */}
                 <section className="pt-20">
                     <div className="case-image aspect-[16/9] md:aspect-[21/9] w-full">
-                        {project.heroMedia ? (
-                            <MediaRenderer
-                                media={project.heroMedia}
-                                className="parallax-inner w-full h-full"
-                                fallbackGradient={project.gradient}
-                                placeholderText="Hero Media"
-                            />
-                        ) : (
-                            <div
-                                className={`parallax-inner w-full h-full bg-gradient-to-br ${project.gradient} flex items-center justify-center`}
-                            >
-                                <span className="font-body text-sm text-charcoal/40">Hero Image</span>
-                            </div>
-                        )}
+                        <MediaRenderer
+                            media={project.heroMedia}
+                            className="parallax-inner w-full h-full"
+                            fallbackGradient={project.gradient}
+                            placeholderText=""
+                        />
                     </div>
                 </section>
 
@@ -273,51 +265,48 @@ function ProjectDetail() {
                     </div>
                 </section>
 
-                {/* Spacer for curtain footer */}
-                <div className="h-[60vh] md:h-[80vh]"></div>
-            </div>
+                {/* Project Navigation Footer - Now in normal document flow */}
+                <section className="min-h-[60vh] md:min-h-[70vh] bg-charcoal flex items-center">
+                    <div className="section-padding w-full">
+                        <div className="container-wide">
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
+                                <Link
+                                    to={`/project/${prevProject.slug}`}
+                                    className="group flex-1 text-left"
+                                >
+                                    <span className="font-body text-xs uppercase tracking-widest text-stone/60 block mb-2">Previous</span>
+                                    <h3 className="font-display text-xl md:text-2xl lg:text-3xl text-cream/70 group-hover:text-cream transition-colors">
+                                        {prevProject.title}
+                                    </h3>
+                                </Link>
 
-            {/* Curtain Footer */}
-            <div className="curtain-footer h-[60vh] md:h-[80vh] bg-charcoal">
-                <div className="h-full flex flex-col items-center justify-center section-padding">
-                    <div className="container-wide w-full">
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
-                            <Link
-                                to={`/project/${prevProject.slug}`}
-                                className="group flex-1 text-left"
-                            >
-                                <span className="font-body text-xs uppercase tracking-widest text-stone/60 block mb-2">Previous</span>
-                                <h3 className="font-display text-xl md:text-2xl lg:text-3xl text-cream/70 group-hover:text-cream transition-colors">
-                                    {prevProject.title}
-                                </h3>
-                            </Link>
+                                <div className="w-px h-16 bg-stone/20 hidden md:block"></div>
 
-                            <div className="w-px h-16 bg-stone/20 hidden md:block"></div>
+                                <Link
+                                    to={`/project/${nextProject.slug}`}
+                                    className="group flex-1 text-right"
+                                >
+                                    <span className="font-body text-xs uppercase tracking-widest text-stone/60 block mb-2">Next</span>
+                                    <h3 className="font-display text-xl md:text-2xl lg:text-3xl text-cream/70 group-hover:text-cream transition-colors">
+                                        {nextProject.title}
+                                    </h3>
+                                </Link>
+                            </div>
 
-                            <Link
-                                to={`/project/${nextProject.slug}`}
-                                className="group flex-1 text-right"
-                            >
-                                <span className="font-body text-xs uppercase tracking-widest text-stone/60 block mb-2">Next</span>
-                                <h3 className="font-display text-xl md:text-2xl lg:text-3xl text-cream/70 group-hover:text-cream transition-colors">
-                                    {nextProject.title}
-                                </h3>
-                            </Link>
-                        </div>
-
-                        <div className="text-center mt-16">
-                            <Link
-                                to="/#works"
-                                className="inline-flex items-center gap-2 font-body text-sm uppercase tracking-wider text-stone hover:text-cream transition-colors"
-                            >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-                                </svg>
-                                All Work
-                            </Link>
+                            <div className="text-center mt-16">
+                                <Link
+                                    to="/#works"
+                                    className="inline-flex items-center gap-2 font-body text-sm uppercase tracking-wider text-stone hover:text-cream transition-colors"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                                    </svg>
+                                    All Work
+                                </Link>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
         </>
     )

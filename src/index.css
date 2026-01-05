@@ -173,24 +173,10 @@ body {
   transform: translateY(0);
 }
 
-/* Curtain Footer Effect */
+/* Content wrapper for project detail pages */
 .content-wrapper {
   position: relative;
-  z-index: 1;
-}
-
-/* Only the actual content sections should have the cream background, not the spacer */
-.content-wrapper>section,
-.content-wrapper>div:not(:last-child) {
   background-color: #F5F5F0;
-}
-
-.curtain-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 0;
 }
 
 /* Case Study Images */
