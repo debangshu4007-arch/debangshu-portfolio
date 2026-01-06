@@ -190,30 +190,26 @@ function ProjectDetail() {
                     <div className="section-padding">
                         <div className="container-wide">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-on-scroll stagger-children">
-                                {project.media && project.media.length >= 2 ? (
-                                    // Render first two media items from project data
-                                    project.media.slice(0, 2).map((mediaItem, idx) => (
+                                {project.galleryMedia && project.galleryMedia.length >= 2 ? (
+                                    // Render first two gallery images
+                                    project.galleryMedia.slice(0, 2).map((mediaItem, idx) => (
                                         <div key={idx} className="case-image aspect-[4/3]">
                                             <MediaRenderer
                                                 media={mediaItem}
                                                 className="parallax-inner w-full h-full"
                                                 fallbackGradient={project.gradient}
-                                                placeholderText={`Project Media ${idx + 1}`}
+                                                placeholderText=""
                                             />
                                         </div>
                                     ))
                                 ) : (
-                                    // Fallback placeholders
+                                    // Gradient fallbacks when no gallery images
                                     <>
                                         <div className="case-image aspect-[4/3]">
-                                            <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-80 flex items-center justify-center`}>
-                                                <span className="font-body text-sm text-charcoal/40">Project Image 1</span>
-                                            </div>
+                                            <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-80`} />
                                         </div>
                                         <div className="case-image aspect-[4/3]">
-                                            <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-60 flex items-center justify-center`}>
-                                                <span className="font-body text-sm text-charcoal/40">Project Image 2</span>
-                                            </div>
+                                            <div className={`parallax-inner bg-gradient-to-br ${project.gradient} opacity-60`} />
                                         </div>
                                     </>
                                 )}
@@ -248,17 +244,15 @@ function ProjectDetail() {
                     <div className="section-padding">
                         <div className="container-wide">
                             <div className="case-image aspect-[16/9] reveal-on-scroll">
-                                {project.media && project.media.length >= 3 ? (
+                                {project.galleryMedia && project.galleryMedia.length >= 3 ? (
                                     <MediaRenderer
-                                        media={project.media[2]}
+                                        media={project.galleryMedia[2]}
                                         className="parallax-inner w-full h-full"
                                         fallbackGradient={project.gradient}
-                                        placeholderText="Full Width Media"
+                                        placeholderText=""
                                     />
                                 ) : (
-                                    <div className={`parallax-inner bg-gradient-to-br ${project.gradient} flex items-center justify-center`}>
-                                        <span className="font-body text-sm text-charcoal/40">Full Width Image</span>
-                                    </div>
+                                    <div className={`parallax-inner bg-gradient-to-br ${project.gradient}`} />
                                 )}
                             </div>
                         </div>
