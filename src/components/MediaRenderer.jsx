@@ -21,7 +21,9 @@ function MediaRenderer({
         if (!showPlaceholder) return null
         return (
             <div className={`bg-gradient-to-br ${fallbackGradient} flex items-center justify-center ${className}`}>
-                <span className="font-body text-sm text-charcoal/40 prose-invert">{placeholderText}</span>
+                {placeholderText && (
+                    <span className="font-body text-sm text-charcoal/40 prose-invert">{placeholderText}</span>
+                )}
             </div>
         )
     }

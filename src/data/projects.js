@@ -17,9 +17,13 @@ export const projects = [
         challenge: 'The client needed to establish a strong visual identity that would resonate with their target audience of young professionals while maintaining a sense of sophistication and trustworthiness.',
         solution: 'We developed a minimal yet impactful visual language using geometric forms and a refined color palette. The brand system was designed to be flexible across digital and print applications.',
         services: ['Video Production', 'Brand Strategy', 'Social Content'],
-        // Media will use gradient fallback when null/undefined
         media: null,
-        heroMedia: null,
+        // Add video/image to: /public/projects/video-advert/hero.mp4 or hero.jpg
+        heroMedia: {
+            type: 'video',
+            src: '/projects/video-advert/hero.mp4',
+            alt: 'Video advert hero reel'
+        },
     },
     {
         id: 2,
@@ -36,7 +40,12 @@ export const projects = [
         solution: 'We implemented scroll-driven animations, interactive product demonstrations, and a carefully crafted information architecture that guides users through the content naturally.',
         services: ['Film Production', 'Storytelling', 'Direction'],
         media: null,
-        heroMedia: null,
+        // Add video/image to: /public/projects/short-film/hero.mp4 or hero.jpg
+        heroMedia: {
+            type: 'video',
+            src: '/projects/short-film/hero.mp4',
+            alt: 'Short film hero trailer'
+        },
     },
     {
         id: 3,
@@ -53,7 +62,12 @@ export const projects = [
         solution: 'Developed a cohesive creative framework and art direction guidelines that ensured consistency while allowing flexibility for different contexts and platforms.',
         services: ['Creative Direction', 'Art Direction', 'Campaign Design'],
         media: null,
-        heroMedia: null,
+        // Uses actual video file in /public/projects/winix/
+        heroMedia: {
+            type: 'video',
+            src: '/projects/winix/Winix_Final_For_Website.mp4',
+            alt: 'Winix air purifier micro ad'
+        },
     },
     {
         id: 4,
@@ -70,7 +84,12 @@ export const projects = [
         solution: 'We crafted a multi-layered narrative that explored the hidden digital consciousness. By combining precise prompt engineering with traditional editing techniques, we delivered a 10-minute film that met the strict thematic requirements while telling a deeply human story.',
         services: ['AI Video', 'Narrative Design', 'Scriptwriting', 'Sound Design'],
         media: null,
-        heroMedia: null,
+        // Add video/image to: /public/projects/1-billion-ai-summit/hero.mp4 or hero.jpg
+        heroMedia: {
+            type: 'video',
+            src: '/projects/1-billion-ai-summit/hero.mp4',
+            alt: '1 Billion AI Summit trailer'
+        },
     },
 ]
 
