@@ -1,5 +1,6 @@
 import { BlurFadeIn } from '../components/BlurFadeIn'
 import VideoPlayer from '../components/VideoPlayer'
+import { BOOKING_URL } from '../utils/constants'
 
 function AboutPage() {
     return (
@@ -187,7 +188,12 @@ function AboutPage() {
                             <h3 className="text-display-md text-editorial text-charcoal mb-6">
                                 Ready to create something together?
                             </h3>
-                            <a href="/#contact" className="btn-primary">
+                            <a
+                                href={BOOKING_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-primary"
+                            >
                                 Let's Talk
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

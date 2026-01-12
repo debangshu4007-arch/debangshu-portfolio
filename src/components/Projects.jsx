@@ -130,12 +130,7 @@ function Projects() {
                                 </h2>
                             </BlurFadeIn>
                         </div>
-                        <BlurFadeIn delay={0.2} blur={10} yOffset={15}>
-                            <p className="font-body text-body text-stone max-w-sm">
-                                A curated selection of work spanning video,
-                                creative direction, and digital design.
-                            </p>
-                        </BlurFadeIn>
+
                     </div>
 
                     {/* Asymmetric Projects Grid */}

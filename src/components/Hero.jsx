@@ -47,19 +47,6 @@ function Hero() {
                                 </p>
                             </BlurFadeIn>
 
-                            {/* Services Tags */}
-                            <BlurFadeIn delay={0.3} blur={8} yOffset={15}>
-                                <div className="mt-8 flex flex-wrap gap-3">
-                                    {['Branding', 'Web Design', 'Development', 'Strategy'].map((service) => (
-                                        <span
-                                            key={service}
-                                            className="px-5 py-2.5 bg-off-white border border-accent/50 rounded-full font-body text-caption uppercase tracking-wider text-charcoal hover:bg-charcoal hover:text-cream transition-all duration-300 cursor-default"
-                                        >
-                                            {service}
-                                        </span>
-                                    ))}
-                                </div>
-                            </BlurFadeIn>
 
                             {/* Scroll Indicator */}
                             <BlurFadeIn delay={0.4} blur={8} yOffset={10}>

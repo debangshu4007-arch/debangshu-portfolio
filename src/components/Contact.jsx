@@ -1,4 +1,7 @@
+import { BOOKING_URL } from '../utils/constants'
+
 function Contact() {
+
     return (
         <section id="contact" className="py-24 md:py-32 lg:py-40 relative overflow-hidden">
             {/* Background Pattern */}
@@ -28,7 +31,7 @@ function Contact() {
                         </p>
 
                         <a
-                            href="https://cal.com/debangshu-singh-sklsrd/30min"
+                            href={BOOKING_URL}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-primary text-lg"
