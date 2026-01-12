@@ -59,7 +59,7 @@ function Header() {
     }
 
     const navLinks = [
-        { name: 'Works', href: '/#works', isPage: false },
+        { name: 'Works', href: '/works', isPage: true },
         { name: 'About', href: '/about', isPage: true },
         { name: 'Contact', href: '/#contact', isPage: false },
     ]
@@ -67,8 +67,8 @@ function Header() {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isNotHomePage
-                    ? 'bg-cream/95 backdrop-blur-md shadow-sm'
-                    : 'bg-transparent'
+                ? 'bg-cream/95 backdrop-blur-md shadow-sm'
+                : 'bg-transparent'
                 }`}
         >
             <div className="section-padding">
@@ -132,8 +132,8 @@ function Header() {
             {/* Mobile Menu */}
             <div
                 className={`md:hidden absolute top-full left-0 right-0 bg-cream border-t border-accent transition-all duration-500 ${isMobileMenuOpen
-                        ? 'opacity-100 visible translate-y-0'
-                        : 'opacity-0 invisible -translate-y-4'
+                    ? 'opacity-100 visible translate-y-0'
+                    : 'opacity-0 invisible -translate-y-4'
                     }`}
             >
                 <nav className="section-padding py-8 flex flex-col gap-6">

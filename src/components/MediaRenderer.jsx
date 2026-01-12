@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import VideoPlayer from './VideoPlayer'
 
 /**
  * MediaRenderer - Renders either an image or video based on media type or file extension
- * Videos autoplay silently, loop, and are responsive
- * Images use standard img behavior
+ * Videos now use VideoPlayer component with mute/unmute controls
+ * Images use standard img behavior with lazy loading
  * Gracefully handles loading errors with a fallback gradient
  */
 
@@ -12,7 +13,8 @@ function MediaRenderer({
     className = '',
     fallbackGradient = 'from-stone/20 to-accent/20',
     showPlaceholder = true,
-    placeholderText = 'Media'
+    placeholderText = 'Media',
+    showVideoControls = true // New prop to control video mute button visibility
 }) {
     const [hasError, setHasError] = useState(false)
 
@@ -34,19 +36,15 @@ function MediaRenderer({
         media.src.toLowerCase().endsWith('.webm') ||
         media.src.toLowerCase().endsWith('.ogg')
 
-    // Render video
+    // Render video using VideoPlayer component with mute controls
     if (isVideo) {
         return (
-            <video
+            <VideoPlayer
                 src={media.src}
-                className={`object-cover ${className}`}
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster={media.poster || undefined}
-                aria-label={media.alt || 'Video content'}
-                onError={() => setHasError(true)}
+                poster={media.poster}
+                className={className}
+                showControls={showVideoControls}
+                fallbackGradient={fallbackGradient}
             />
         )
     }

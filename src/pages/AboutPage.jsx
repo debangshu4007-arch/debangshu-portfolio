@@ -1,4 +1,5 @@
 import { BlurFadeIn } from '../components/BlurFadeIn'
+import VideoPlayer from '../components/VideoPlayer'
 
 function AboutPage() {
     return (
@@ -78,38 +79,16 @@ function AboutPage() {
                     <div className="container-wide">
                         <BlurFadeIn delay={0} blur={15} yOffset={30} duration={0.9}>
                             <div className="relative aspect-video max-w-5xl mx-auto bg-warm-gray/50 rounded-2xl overflow-hidden border border-accent/30 shadow-lg">
-                                {/* Replace with your video or image */}
-                                <video
-                                    className="w-full h-full object-cover"
+                                {/* Video with mute/unmute controls */}
+                                <VideoPlayer
+                                    src="/about-video.mp4"
                                     poster="/about-poster.jpg"
-                                    controls={false}
-                                    autoPlay
-                                    muted
-                                    loop
-                                    playsInline
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
-                                        e.target.nextSibling.style.display = 'flex';
-                                    }}
-                                >
-                                    <source src="/about-video.mp4" type="video/mp4" />
-                                </video>
+                                    className="w-full h-full"
+                                    showControls={true}
+                                    fallbackGradient="from-warm-gray to-accent/30"
+                                />
 
-                                {/* Fallback placeholder when no video */}
-                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-warm-gray to-accent/30">
-                                    <div className="w-24 h-24 rounded-full bg-cream/80 flex items-center justify-center mb-6">
-                                        <svg className="w-12 h-12 text-stone" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <span className="font-body text-sm text-charcoal/60 text-center px-4">
-                                        Add your video or image to<br />
-                                        <code className="text-xs bg-cream/50 px-2 py-1 rounded mt-1 inline-block">public/about-video.mp4</code>
-                                        <span className="mx-2 text-xs">or</span>
-                                        <code className="text-xs bg-cream/50 px-2 py-1 rounded mt-1 inline-block">public/about-image.jpg</code>
-                                    </span>
-                                </div>
+                                {/* Fallback placeholder when no video - shown by VideoPlayer on error */}
                             </div>
                         </BlurFadeIn>
                     </div>

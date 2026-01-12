@@ -129,6 +129,36 @@ export const projects = [
             { type: 'image', src: '/projects/1-billion-ai-summit/gallery-3.jpg', alt: 'Visual development' },
         ],
     },
+    {
+        id: 5,
+        slug: 'bananaland',
+        title: 'Banana Land',
+        subtitle: 'An AI-generated cinematic journey through India',
+        category: 'AI Film',
+        year: '2025',
+        gradient: 'from-yellow-500/40 to-warm-gray',
+        client: 'Independent',
+        duration: '6 weeks',
+        description: 'An AI-generated film that explores magical realism through the lens of Indian culture. The project pushed the boundaries of generative AI tools to create a visually stunning narrative experience with a distinctive "Dharma" aesthetic.',
+        challenge: 'Creating a cohesive cinematic look that authentically represents Indian locations and culture using AI generation tools, while maintaining consistent character and visual style throughout the film.',
+        solution: 'We developed a meticulous look development process using Milanote for frame organization. Nano Banana Pro was used for realistic image generation of Bombay locations via Hedra. For video generation, Kling O1 and Kling 2.6 models through Higgsfield delivered scene transformations. Final compositing and sound design was completed in Premiere Pro.',
+        services: ['AI Video Generation', 'Look Development', 'Post-Production', 'Sound Design'],
+        thumbnail: {
+            type: 'image',
+            src: '/projects/bananaland/thumbnail.jpg',
+            alt: 'Banana Land preview'
+        },
+        heroMedia: {
+            type: 'video',
+            src: '/projects/bananaland/hero.mp4',
+            alt: 'Banana Land hero video'
+        },
+        galleryMedia: [
+            { type: 'image', src: '/projects/bananaland/gallery-1.jpg', alt: 'Cinematic frame from Banana Land' },
+            { type: 'image', src: '/projects/bananaland/gallery-2.jpg', alt: 'Character scene' },
+            { type: 'image', src: '/projects/bananaland/gallery-3.jpg', alt: 'Bombay location shot' },
+        ],
+    },
 ]
 
 /**
